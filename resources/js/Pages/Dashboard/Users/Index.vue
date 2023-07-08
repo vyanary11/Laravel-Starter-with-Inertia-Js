@@ -1,14 +1,39 @@
 <template>
-    <AuthLayout>
-        <Head title="Users" />
-
-        <button data-toggle="modal" type="button" class="btn btn-primary" data-target="#user-modal">Add User</button>
-
+    <AuthLayout title="Users">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <button data-toggle="modal" type="button" class="btn btn-primary" data-target="#user-modal">
+                            <i class="fas fa-plus"></i> Add User
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <DataTable
+                                ref="table"
+                                :columns="columns"
+                                :ajaxUrl="route('users.dataTable')"
+                                :enableBulk="true"
+                                :bulkActions="[
+                                    {
+                                        route: route('users.dataTable'),
+                                        routeMethod: 'delete',
+                                        label: 'Delete Selected'
+                                    }
+                                ]"
+                                :has-action="true"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <template #modal>
             <Modal
                 name="user"
                 ref="user"
-                title="user"
+                title="Tambah User"
                 :use-form="true"
                 footer-Class="bg-whitesmoke br"
                 :buttons="modalButtons"
@@ -32,38 +57,10 @@
                 </div>
             </Modal>
         </template>
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Basic DataTables</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <DataTable
-                                ref="table"
-                                :columns="columns"
-                                :ajaxUrl="route('users.dataTable')"
-                                :enableBulk="true"
-                                :bulkActions="[
-                                    {
-                                        route: route('users.dataTable'),
-                                        routeMethod: 'delete',
-                                        label: 'Delete Selected'
-                                    }
-                                ]"
-                                :has-action="true"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </AuthLayout>
 </template>
 
 <script>
-    import { Head } from '@inertiajs/vue3';
     import Checkbox from '@/Components/Checkbox.vue'
     import Input from '@/Components/Input.vue'
     import Label from '@/Components/Label.vue'
@@ -76,7 +73,6 @@
             Checkbox,
             Input,
             Label,
-            Head,
             Modal,
             AuthLayout,
             DataTable
@@ -156,8 +152,8 @@
             showUpdate(id){
                 // Get row data
                 this.$refs.user.showUpdateModal({
-                    title: 'Update',
-                    buttonSubmitText: 'Update Button'
+                    title: 'Edit User',
+                    buttonSubmitText: 'Update'
                 });
                 this.$refs.user.startProgress();
                 axios.get(route('users.show', [{'id': id}])).then((response) => {

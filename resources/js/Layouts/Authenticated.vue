@@ -1,11 +1,12 @@
 <template>
+    <Head :title="title" />
     <div class="main-wrapper">
         <sidebar></sidebar>
         <!-- Main Content -->
         <div class="main-content">
             <section class="section" v-if="showSectionHeaderAndBody">
                 <div class="section-header">
-                    <h1>{{ ucwords(urlSegment(0)) }}</h1>
+                    <h1>{{ ucwords(title) }}</h1>
                     <div class="section-header-breadcrumb">
                         <div class="breadcrumb-item">
                             <Link v-if="urlSegment(1)!=undefined" :href="'/'+urlSegment(0)">Dashboard</Link>
@@ -13,9 +14,9 @@
                         </div>
                         <div v-if="urlSegment(1)!=undefined" :class="['breadcrumb-item', { active: urlSegment(2)==undefined}]">
                             <Link v-if="urlSegment(2)!=undefined" :href="'/'+urlSegment(0)+'/'+urlSegment(1)">{{ ucwords(urlSegment(1)) }}</Link>
-                            <span v-else>{{ ucwords(urlSegment(1)) }}</span>
+                            <span v-else>{{ ucwords(title) }}</span>
                         </div>
-                        <div v-if="urlSegment(2)!=undefined" class="breadcrumb-item active">{{ ucwords(urlSegment(2)) }}</div>
+                        <div v-if="urlSegment(2)!=undefined" class="breadcrumb-item active">{{ ucwords(title) }}</div>
                     </div>
                 </div>
                 <div class="section-body">
@@ -49,11 +50,16 @@ export default {
     components: {
         Link,
         Sidebar,
-        Navbar
+        Navbar,
+        Head
     },
     props: {
         showSectionHeaderAndBody: {
             type: Boolean,
+            default: true
+        },
+        title: {
+            type: String,
             default: true
         },
     },
@@ -99,7 +105,7 @@ export default {
         }
     },
     mounted() {
-        
+
     },
 }
 </script>
