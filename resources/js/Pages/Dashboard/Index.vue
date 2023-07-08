@@ -9,7 +9,6 @@ import AuthLayout from '@/Layouts/Authenticated.vue'
 
 export default {
     components: {
-        Head,
         AuthLayout
     },
 }
